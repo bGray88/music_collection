@@ -1,6 +1,7 @@
 class User < ApplicationRecord
-  has_many :albums
-  has_many :album_songs
+  has_many :user_albums
+  has_many :albums, through: :user_albums
+  has_many :album_songs, through: :albums
   has_many :songs, through: :album_songs
   has_many :artists, through: :albums
 
