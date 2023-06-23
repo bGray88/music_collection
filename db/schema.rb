@@ -10,20 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_23_193153) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_23_221634) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "album_songs", force: :cascade do |t|
-    t.bigint "album_id"
-    t.bigint "song_id"
+    t.bigint "album_id", null: false
+    t.bigint "song_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["album_id"], name: "index_album_songs_on_album_id"
     t.index ["song_id"], name: "index_album_songs_on_song_id"
   end
 
   create_table "albums", force: :cascade do |t|
     t.string "title", null: false
-    t.integer "create_year", null: false
+    t.integer "release_year", null: false
+    t.string "genre", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "artist_id", null: false
@@ -43,6 +46,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_193153) do
     t.float "length", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "artist_id", null: false
+    t.index ["artist_id"], name: "index_songs_on_artist_id"
+  end
+
+  create_table "user_albums", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "album_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["album_id"], name: "index_user_albums_on_album_id"
+    t.index ["user_id"], name: "index_user_albums_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -58,4 +72,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_193153) do
   add_foreign_key "album_songs", "albums"
   add_foreign_key "album_songs", "songs"
   add_foreign_key "albums", "artists"
+  add_foreign_key "songs", "artists"
+  add_foreign_key "user_albums", "albums"
+  add_foreign_key "user_albums", "users"
 end

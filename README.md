@@ -104,7 +104,7 @@ Built using Ruby on Rails, and PostgreSQL, this intuitive and informative databa
   
   ### Schema
   
-  [//]: # (![alt text](app/assets/images/readme/readme-schema.png))
+  ![alt text](app/assets/images/readme/readme-schema.png)
 
   <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
