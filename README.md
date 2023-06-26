@@ -1,5 +1,5 @@
 # README
-## Music Collection
+## Music Collection BE
 
 Built using Ruby on Rails, and PostgreSQL, this intuitive and informative database is helpful to keep track of owned and wishlisted music albums.
 
