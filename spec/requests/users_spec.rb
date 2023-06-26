@@ -50,6 +50,8 @@ RSpec.describe 'Users API' do
 
       post api_v1_users_path, headers: headers, params: JSON.generate(user: user_params)
 
+      post api_v1_login_index_path(login: { email: user_params[:email], password: user_params[:password] })
+
       get api_v1_user_path(user: { email: user_params[:email], password: user_params[:password] }), headers: headers
 
       expect(response).to be_successful
