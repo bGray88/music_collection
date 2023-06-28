@@ -6,8 +6,8 @@ class ArtistSerializer
           "id":         artist[:id],
           "type":       "Artist",
           "attributes": {
-            "first_name": artist[:name],
-            "last_name":  artist[:form_year]
+            "name": artist[:name],
+            "form_year":  artist[:form_year]
           }
         }
       end

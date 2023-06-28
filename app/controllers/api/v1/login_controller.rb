@@ -10,7 +10,7 @@ class Api::V1::LoginController < ApplicationController
 
   def destroy
     reset_session
-    render json: { "success": "Logged out successfully" }, status: :created
+    render json: { "success": "Logged out successfully" }, status: :ok
   end
 
   private

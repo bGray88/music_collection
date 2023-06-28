@@ -6,9 +6,9 @@ class SongSerializer
           "id":         song[:id],
           "type":       "Song",
           "attributes": {
-            "first_name": song[:title],
-            "last_name":  song[:create_year],
-            "email":      song[:length]
+            "title": song[:title],
+            "create_year":  song[:create_year],
+            "length":      song[:length]
           }
         }
       end

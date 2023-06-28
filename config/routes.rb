@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       get '/register',  to: 'users#new'
       resources :users, only: [:create]
       get '/dashboard', to: 'users#show', as: 'user'
+      resources :albums, only: [:index, :create]
       resources :login, only: [:create, :destroy]
     end
   end
