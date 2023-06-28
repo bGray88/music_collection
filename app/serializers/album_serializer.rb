@@ -6,9 +6,9 @@ class AlbumSerializer
           "id":         album[:id],
           "type":       "Album",
           "attributes": {
-            "first_name": album[:title],
-            "last_name":  album[:release_year],
-            "email":      album[:genre]
+            "title": album[:title],
+            "release_year":  album[:release_year],
+            "genre":      album[:genre]
           }
         }
       end
