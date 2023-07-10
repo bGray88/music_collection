@@ -12,9 +12,9 @@ RSpec.describe 'Users API' do
       }
       headers = { "CONTENT_TYPE" => "application/json" }
 
-      post api_v1_users_path, headers: headers, params: JSON.generate(user: user_params)
+      post api_v1_register_path, headers: headers, params: JSON.generate(user: user_params)
 
-      post api_v1_login_index_path(login: { email: user_params[:email], password: user_params[:password] })
+      post api_v1_login_path(login: { email: user_params[:email], password: user_params[:password] }), headers: headers
 
       get api_v1_user_path(user: { email: user_params[:email], password: user_params[:password] }), headers: headers
 
@@ -38,7 +38,7 @@ RSpec.describe 'Users API' do
       }
       headers = { "CONTENT_TYPE" => "application/json" }
 
-      post api_v1_users_path, headers: headers, params: JSON.generate(user: user_params)
+      post api_v1_register_path, headers: headers, params: JSON.generate(user: user_params)
 
       get api_v1_user_path(user: { email: "peewee@gmail.com" }), headers: headers
 

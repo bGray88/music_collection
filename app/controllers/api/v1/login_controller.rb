@@ -3,6 +3,7 @@ class Api::V1::LoginController < ApplicationController
     user = User.find_by(email: login_params[:email])
     if user&.authenticate(login_params[:password])
       session[:user_id] = user.id
+      render json: { "success": "Logged in successfully" }, status: :ok
     else
       render json: { "errors": "Unable to locate or authenticate user" }, status: :not_found
     end

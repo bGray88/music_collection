@@ -11,7 +11,7 @@ RSpec.describe 'Users API' do
         password_confirmation: '474E5a5s12'
       }
       headers = { "CONTENT_TYPE" => "application/json" }
-      post api_v1_users_path, headers: headers, params: JSON.generate(user: user_params)
+      post api_v1_register_path, headers: headers, params: JSON.generate(user: user_params)
 
       created_user = User.last
 
@@ -30,10 +30,29 @@ RSpec.describe 'Users API' do
         password_confirmation: '474E5a5s12'
       }
       headers = { "CONTENT_TYPE" => "application/json" }
-      post api_v1_users_path, headers: headers, params: JSON.generate(user: user_params)
+      post api_v1_register_path, headers: headers, params: JSON.generate(user: user_params)
 
       expect(response).to_not be_successful
       expect(response.body).to include("Last name can\'t be blank")
+    end
+
+    it 'will not register user with same email' do
+      user_params = {
+        email: 'jimmyjoe@gmail.com',
+        first_name: 'Jimmy',
+        last_name: 'Joe',
+        password: '474E5a5s12',
+        password_confirmation: '474E5a5s12'
+      }
+      headers = { "CONTENT_TYPE" => "application/json" }
+      post api_v1_register_path, headers: headers, params: JSON.generate(user: user_params)
+
+      expect(response).to be_successful
+
+      post api_v1_register_path, headers: headers, params: JSON.generate(user: user_params)
+
+      expect(response).to_not be_successful
+      expect(response.body).to include("Email has already been taken")
     end
   end
 end
