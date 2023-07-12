@@ -1,4 +1,6 @@
 class Api::V1::LoginController < ApplicationController
+  before_action :format_email,  only: [:create]
+  
   def create
     user = User.find_by(email: login_params[:email])
     if user&.authenticate(login_params[:password])
@@ -15,6 +17,10 @@ class Api::V1::LoginController < ApplicationController
   end
 
   private
+
+  def format_email
+    params[:email]&.downcase!
+  end
 
   def login_params
     params.require(:login).permit(
