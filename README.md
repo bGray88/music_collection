@@ -3,7 +3,8 @@
 
 Built using Ruby on Rails, and PostgreSQL, this intuitive and informative database is helpful to keep track of owned and wishlisted music albums.
 
-[//]: # (![alt text](app/assets/images/readme/readme-screenshot-01.png))
+![alt text](app/assets/images/readme/readme-screenshot-01.png)
+![alt text](app/assets/images/readme/readme-screenshot-02.png)
 
 <a name="readme-top"></a>
 
@@ -45,7 +46,8 @@ Built using Ruby on Rails, and PostgreSQL, this intuitive and informative databa
   
   ### Production Links
   
-  * [Github](https://github.com/bgray88/music_collection) <br>
+  * [Music Collection BE](https://github.com/bgray88/music_collection_be) <br>
+  * [Music Collection FE](https://github.com/bgray88/music_collection_fe) <br>
 
   ### Learning Goals
 
@@ -105,6 +107,16 @@ Built using Ruby on Rails, and PostgreSQL, this intuitive and informative databa
   ### Schema
   
   ![alt text](app/assets/images/readme/readme-schema.png)
+
+  ### Endpoints
+
+  ### Users
+
+  ### Artists
+
+  ### Albums
+
+  ### Songs
 
   <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
