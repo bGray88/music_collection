@@ -2,7 +2,10 @@ class Api::V1::ArtistsController < ApplicationController
   def create
     artist = Artist.new(artist_params)
     if artist.save
-      render json: { "success": "Artist added successfully" }, status: :created
+      render json: {
+         "success": "Artist added successfully",
+         "artists": ArtistSerializer.artists([artist])
+      }, status: :created
     else
       render json: { "errors": artist.errors.full_messages.to_sentence }, status: :bad_request
     end

@@ -10,11 +10,11 @@ RSpec.describe 'Artists API' do
       headers = { "CONTENT_TYPE" => "application/json" }
       post api_v1_artists_path, headers: headers, params: JSON.generate(artist: artist_params)
 
-      created_artist = Artist.last
+      created_artist = JSON.parse(response.body, symbolize_names: true).dig(:artists, :data, 0)
 
       expect(response).to be_successful
-      expect(created_artist.name).to eq(artist_params[:name])
-      expect(created_artist.form_year).to eq(artist_params[:form_year])
+      expect(created_artist.dig(:attributes, :name)).to eq(artist_params[:name])
+      expect(created_artist.dig(:attributes, :form_year)).to eq(artist_params[:form_year])
     end
 
     it 'notifies of errors due to missing attributes' do
