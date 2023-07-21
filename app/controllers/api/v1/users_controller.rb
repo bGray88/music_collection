@@ -3,24 +3,38 @@ class Api::V1::UsersController < ApplicationController
   before_action :find_user,     only: [:show]
   before_action :validate_user, only: [:show]
 
+  def index
+    @users = User.all
+    render json: @users, status: :ok
+  end
+
   def create
-    user = User.new(user_params)
-    if user.save
-      render json: { "success": "User added successfully" }, status: :created
+    @user = User.new(user_params)
+    if @user.save
+      render json: { "success": "User added successfully", "user": @user }, status: :created
     else
-      render json: { "errors": user.errors.full_messages.to_sentence }, status: :bad_request
+      render json: { "errors": @user.errors.full_messages }, status: :bad_request
     end
   end
 
   def show
-    if @user
-      render json: UserSerializer.users([@user])
+    render json: UserSerializer.users([@user])
+  end
+
+  def update
+    if @user.update(user_params)
+      render json: { "success": "User updated successfully", "user": @user }, status: :ok
     else
-      render json: { "errors": "Login is necessary" }, status: :not_found
+      render json: { "errors": @user.errors.full_messages }, status: :bad_request
     end
   end
 
+  def destroy
+    @user.destroy
+  end
+
   private
+
   def validate_user
     unless current_user
       render json: { "errors": "Unable to locate or authenticate user" }, status: :not_found
