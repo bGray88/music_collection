@@ -1,4 +1,6 @@
 class Api::V1::AlbumsController < ApplicationController
+  skip_before_action :authenticate_request, only: [:index]
+
   def create
     album = Album.new(album_params)
     if album.save

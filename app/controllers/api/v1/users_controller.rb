@@ -2,6 +2,7 @@ class Api::V1::UsersController < ApplicationController
   before_action :format_email,  only: [:create]
   before_action :find_user,     only: [:show]
   before_action :validate_user, only: [:show]
+  skip_before_action :authenticate_request, only: [:create]
 
   def index
     @users = User.all
@@ -34,12 +35,6 @@ class Api::V1::UsersController < ApplicationController
   end
 
   private
-
-  def validate_user
-    unless current_user
-      render json: { "errors": "Unable to locate or authenticate user" }, status: :not_found
-    end
-  end
 
   def format_email
     params[:email]&.downcase!
