@@ -1,4 +1,6 @@
 class Api::V1::ArtistsController < ApplicationController
+  skip_before_action :authenticate_request, only: [:index]
+
   def create
     artist = Artist.new(artist_params)
     if artist.save

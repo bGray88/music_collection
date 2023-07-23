@@ -3,6 +3,16 @@ require 'rails_helper'
 RSpec.describe 'Albums API' do
   before(:each) do
     @artist1 = create(:artist)
+    @user1 = create(:user)
+
+    headers = { "CONTENT_TYPE" => "application/json" }
+    post api_v1_login_path(login: { email: @user1.email, password: @user1.password }), headers: headers
+
+    @user_token = response.header['X-AUTH-TOKEN']
+    @headers = {
+      "CONTENT_TYPE" => "application/json",
+      'Authorization': @user_token
+    }
   end
 
   describe '#Create' do
@@ -13,8 +23,7 @@ RSpec.describe 'Albums API' do
         release_year: 1975,
         artist_id: @artist1.id
       }
-      headers = { "CONTENT_TYPE" => "application/json" }
-      post api_v1_albums_path, headers: headers, params: JSON.generate(album: album_params)
+      post api_v1_albums_path, headers: @headers, params: JSON.generate(album: album_params)
 
       created_album = Album.last
 
@@ -29,8 +38,7 @@ RSpec.describe 'Albums API' do
         title: 'Born to Run',
         genre: 'Rock'
       }
-      headers = { "CONTENT_TYPE" => "application/json" }
-      post api_v1_albums_path, headers: headers, params: JSON.generate(album: album_params)
+      post api_v1_albums_path, headers: @headers, params: JSON.generate(album: album_params)
 
       expect(response).to_not be_successful
       expect(response.body).to include("Release year can\'t be blank")
