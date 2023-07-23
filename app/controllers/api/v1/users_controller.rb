@@ -1,7 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   before_action :format_email,  only: [:create]
   before_action :find_user,     only: [:show]
-  before_action :validate_user, only: [:show]
   skip_before_action :authenticate_request, only: [:create]
 
   def index
@@ -41,7 +40,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def find_user
-    @user = current_user
+    @user = @_current_user
   end
 
   def user_params

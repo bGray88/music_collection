@@ -44,6 +44,7 @@ gem "bootsnap", require: false
 
 gem 'rack-cors'
 gem 'faraday'
+gem 'figaro'
 gem 'jwt'
 
 # Use Sass to process CSS
@@ -62,6 +63,7 @@ group :development, :test do
   gem 'hirb'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem "vcr"
 end
 
 group :development do
