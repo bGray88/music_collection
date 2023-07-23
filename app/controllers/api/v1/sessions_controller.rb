@@ -6,14 +6,14 @@ class Api::V1::SessionsController < ApplicationController
   def create
     if @user&.authenticate(login_params[:password])
       current_user(@user.id)
-      headers["X-AUTH-TOKEN"] = jwt_encode(user_id: @user.id)
-      headers["X-AUTH-EXPIRE"]   = (Time.now + 1.hour).strftime("%m-%d-%Y %H:%M")
+      headers["X-AUTH-TOKEN"]  = jwt_encode(user_id: @user.id)
+      headers["X-AUTH-EXPIRE"] = (Time.now + 1.hour).strftime("%m-%d-%Y %H:%M")
       render json: {
         "success": "Logged in successfully",
-        "user":      UserSerializer.users([@_current_user])
+        "user":    UserSerializer.users([@_current_user])
       }, status: :ok
     else
-      render json: { "errors": "Unable to locate or authenticate user" }, status: :not_found
+      render json: { "errors": "Unable to locate or authenticate user" }, status: :bad_request
     end
   end
 
