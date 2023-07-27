@@ -19,7 +19,7 @@ class AlbumsService
 
   def self.renew_auth_token
     data = {
-      "grant_type": "client_credentials",
+      "grant_type":    "client_credentials",
       "client_id":     "#{ENV["SPOTIFY_CLIENT_ID"]}",
       "client_secret": "#{ENV["SPOTIFY_CLIENT_SC"]}"
     }
@@ -30,17 +30,18 @@ class AlbumsService
     parse_json(response)
   end
 
-  def self.search_by_name(name, type, limit = 10, top = 5)
-    response = conn.get("/search?") do |search|
-      search.params['q']     = name
-      search.params['type']  = type
-      search.params['limit'] = limit
-      search.params['numberOfTopResults'] = top
-    end
+  def self.search_by_artist(name, token, limit = 10, market = "US")
+    data = {
+      "q": "artist=#{name}",
+      "type": "album",
+      "limit": limit,
+      "market": market
+    }
+    headers = {
+      "Authorization": "Bearer #{token}",
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+    response = conn.get("/v1/search?", data, headers)
     parse_json(response)
-  end
-
-  def self.search_by_id(id)
-    parse_json(conn.get("/albums/#{id}"))
   end
 end

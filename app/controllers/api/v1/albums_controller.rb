@@ -11,7 +11,10 @@ class Api::V1::AlbumsController < ApplicationController
   end
 
   def index
-    render json: AlbumSerializer.albums(Album.all)
+    session[:token] ||= AlbumsService.renew_auth_token[:access_token]
+    session[:token_type] ||= AlbumsService.renew_auth_token[:token_type]
+    session[:expires_in] ||= AlbumsService.renew_auth_token[:expires_in]
+    render json: AlbumSerializer.albums(AlbumsService.search_by_artist(params[:search], session[:token]))
   end
 
   private

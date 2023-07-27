@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe 'Login API' do
-  describe '#create' do
+RSpec.describe 'Sessions API' do
+  describe '#Create' do
     it 'can create a login' do
       user_params = {
         email: 'jimmyjoe@gmail.com',
