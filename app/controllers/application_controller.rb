@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
   include JsonWebToken
+  include SpotifyWebToken
 
   helper_method :current_user
   before_action :authenticate_request
@@ -11,7 +12,7 @@ class ApplicationController < ActionController::API
   end
 
   def authenticate_request
-    header  = request.headers["Authorization"]
+    header = request.headers["Authorization"]
     begin
       decoded = jwt_decode(header)
       @_current_user = User.find(decoded[:user_id])
