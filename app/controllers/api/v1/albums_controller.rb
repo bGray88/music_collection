@@ -4,17 +4,34 @@ class Api::V1::AlbumsController < ApplicationController
   def create
     album = Album.new(album_params)
     if album.save
-      render json: { "success": "Album added successfully" }, status: :created
+      render json: {
+        "success": "Album added successfully"
+        }, status: :created
     else
-      render json: { "errors": album.errors.full_messages.to_sentence }, status: :bad_request
+      render json: {
+        "errors": album.errors.full_messages.to_sentence
+        }, status: :bad_request
     end
   end
 
   def index
-    session[:token] ||= AlbumsService.renew_auth_token[:access_token]
-    session[:token_type] ||= AlbumsService.renew_auth_token[:token_type]
-    session[:expires_in] ||= AlbumsService.renew_auth_token[:expires_in]
-    render json: AlbumSerializer.albums(AlbumsService.search_by_artist(params[:search], session[:token]))
+    update_token
+    if params[:search]
+      render json: AlbumSerializer.albums(
+        AlbumsService.search_by_artist(
+          params[:search],
+          session[:token]
+        )
+      )
+    end
+    if params[:suggest]
+      render json: AlbumSerializer.album_slides(
+        AlbumsService.search_suggested(
+          ['classic', 'rock', 'punk'].sample,
+          session[:token]
+        )
+      )
+    end
   end
 
   private

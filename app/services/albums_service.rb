@@ -44,4 +44,19 @@ class AlbumsService
     response = conn.get("/v1/search?", data, headers)
     parse_json(response)
   end
+
+  def self.search_suggested(seed, token, limit = 10, market = "US")
+    data = {
+      "seed_genres": seed,
+      "type": "album",
+      "limit": limit,
+      "market": market
+    }
+    headers = {
+      "Authorization": "Bearer #{token}",
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+    response = conn.get("/v1/recommendations?", data, headers)
+    parse_json(response)
+  end
 end
