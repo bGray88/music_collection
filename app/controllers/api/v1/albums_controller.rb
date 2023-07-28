@@ -25,13 +25,21 @@ class Api::V1::AlbumsController < ApplicationController
       )
     end
     if params[:suggest]
-      render json: AlbumSerializer.album_slides(
+      render json: AlbumSerializer.album_slides_tracks(
         AlbumsService.search_suggested(
           ['classic', 'rock', 'punk'].sample,
           session[:token]
         )
       )
     end
+    if params[:recent]
+      render json: AlbumSerializer.album_slides_albums(
+        AlbumsService.search_recent(
+          session[:token]
+        )
+      )
+    end
+    render json: AlbumSerializer.albums(AlbumFacade.albums(Album.all)) if params[:owned]
   end
 
   private
