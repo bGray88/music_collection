@@ -59,4 +59,17 @@ class AlbumsService
     response = conn.get("/v1/recommendations?", data, headers)
     parse_json(response)
   end
+
+  def self.search_recent(token, limit = 10, market = "US")
+    data = {
+      "limit": limit,
+      "country": market
+    }
+    headers = {
+      "Authorization": "Bearer #{token}",
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+    response = conn.get("/v1/browse/new-releases?", data, headers)
+    parse_json(response)
+  end
 end
