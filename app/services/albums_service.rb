@@ -56,7 +56,7 @@ class AlbumsService
       "Authorization": "Bearer #{token}",
       "Content-Type": "application/x-www-form-urlencoded"
     }
-    response = conn.get("/v1/recommendations?", data, headers)
+    response ||= conn.get("/v1/recommendations?", data, headers)
     parse_json(response)
   end
 
@@ -69,7 +69,7 @@ class AlbumsService
       "Authorization": "Bearer #{token}",
       "Content-Type": "application/x-www-form-urlencoded"
     }
-    response = conn.get("/v1/browse/new-releases?", data, headers)
+    response ||= conn.get("/v1/browse/new-releases?", data, headers)
     parse_json(response)
   end
 end
