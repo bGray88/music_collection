@@ -4,7 +4,8 @@ RSpec.describe Artist, type: :model do
   describe "validations" do
     subject { create(:artist) }
     it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:form_year) }
+    it { should validate_presence_of(:image) }
+    it { should validate_presence_of(:api_id) }
   end
 
   before(:each) do

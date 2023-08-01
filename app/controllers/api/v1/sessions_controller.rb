@@ -1,7 +1,7 @@
 class Api::V1::SessionsController < ApplicationController
   before_action :format_email, only: [:create]
   before_action :find_user,    only: [:create]
-  skip_before_action :authenticate_request, only: [:create]
+  skip_before_action :authenticate_request, only: [:create, :destroy]
 
   def create
     if @user&.authenticate(login_params[:password])

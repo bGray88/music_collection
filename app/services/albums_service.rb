@@ -31,6 +31,7 @@ class AlbumsService
   end
 
   def self.search_by_artist(name, token, limit = 10, market = "US")
+    response = {}
     data = {
       "q": "artist=#{name}",
       "type": "album",
@@ -41,8 +42,22 @@ class AlbumsService
       "Authorization": "Bearer #{token}",
       "Content-Type": "application/x-www-form-urlencoded"
     }
-    response = conn.get("/v1/search?", data, headers)
-    parse_json(response)
+    unless response[name]
+      response[name] = conn.get("/v1/search?", data, headers)
+    end
+    parse_json(response[name])
+  end
+
+  def self.search_by_album_id(album_id, token, limit = 10, market = "US")
+    response = {}
+    headers = {
+      "Authorization": "Bearer #{token}",
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+    unless response[album_id]
+      response[album_id] = conn.get("/v1/albums/#{album_id}", data={}, headers)
+    end
+    parse_json(response[album_id])
   end
 
   def self.search_suggested(seed, token, limit = 10, market = "US")

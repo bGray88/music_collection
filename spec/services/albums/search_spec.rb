@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Albums Service' do
   describe "Search" do
-    it 'search various types on Spotify through API by artist name' do
+    it 'search various types through API by artist name' do
       session_token ||= AlbumsService.renew_auth_token[:access_token]
       search_response = AlbumsService.search_by_artist("Led Zeppilin", session_token)
 
@@ -17,7 +17,19 @@ RSpec.describe 'Albums Service' do
       expect(search_response.dig(:albums, :items, 0)).to have_key(:release_date)
     end
 
-    it 'search various types on Spotify through API for suggestions' do
+    it 'finds album by album id' do
+      session_token ||= AlbumsService.renew_auth_token[:access_token]
+      search_response = AlbumsService.search_by_album_id("4aawyAB9vmqN3uQ7FjRGTy", session_token)
+
+      expect(search_response).to have_key(:id)
+      expect(search_response).to have_key(:images)
+      expect(search_response[:images]).to be_a(Array)
+      expect(search_response.dig(:images, 2)).to have_key(:url)
+      expect(search_response).to have_key(:name)
+      expect(search_response).to have_key(:release_date)
+    end
+
+    it 'search various types through API for suggestions' do
       session_token ||= AlbumsService.renew_auth_token[:access_token]
       search_response = AlbumsService.search_suggested(['classic', 'rock', 'punk'].sample, session_token)
 
@@ -32,7 +44,7 @@ RSpec.describe 'Albums Service' do
       expect(search_response.dig(:tracks, 0, :album)).to have_key(:release_date)
     end
 
-    it 'search various types on Spotify through API for recent release' do
+    it 'search various types through API for recent release' do
       session_token ||= AlbumsService.renew_auth_token[:access_token]
       search_response = AlbumsService.search_recent(session_token)
 

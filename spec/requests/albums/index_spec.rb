@@ -2,32 +2,78 @@ require 'rails_helper'
 
 RSpec.describe 'Albums API' do
   before(:each) do
-    @artist1 = create(:artist)
+    @headers = {
+      "CONTENT_TYPE" => "application/json",
+    }
   end
 
   describe '#Index' do
-    before(:each) do
-      @artist1 = create(:artist)
-      @album1  = create(:album, artist: @artist1)
-      @album2  = create(:album, artist: @artist1)
-      @album3  = create(:album, artist: @artist1)
-    end
+    it 'can retrieve search results in expected format' do
+      data = {
+        "search": "zeppelin"
+      }
+      get api_v1_albums_path, headers: @headers, params: data
 
-    it 'can list all albums' do
-      headers = { "CONTENT_TYPE" => "application/json" }
-      get api_v1_albums_path, headers: headers
+      album = JSON.parse(response.body, symbolize_names: true)[:data][0]
 
       expect(response).to be_successful
+      expect(album).to have_key(:id)
+      expect(album).to have_key(:type)
+      expect(album).to have_key(:attributes)
 
-      albums = JSON.parse(response.body, symbolize_names: true)
+      album_attr = album[:attributes]
 
-      expect(albums[:data].length).to eq(3)
+      expect(album_attr).to have_key(:title)
+      expect(album_attr).to have_key(:release_year)
+      expect(album_attr).to have_key(:genres)
+      expect(album_attr).to have_key(:image)
+      expect(album_attr).to have_key(:api_id)
+    end
 
-      album1 = albums.dig(:data, 0)
+    it 'can retrieve suggested results in expected format' do
+      data = {
+        "suggest": ["rock", "classic", "punk"].sample
+      }
+      get api_v1_albums_path, headers: @headers, params: data
 
-      expect(album1.dig(:attributes, :title)).to eq(@album1[:title])
-      expect(album1.dig(:attributes, :genre)).to eq(@album1[:genre])
-      expect(album1.dig(:attributes, :release_year)).to eq(@album1[:release_year])
+      album = JSON.parse(response.body, symbolize_names: true)[:data][0]
+
+      expect(response).to be_successful
+      expect(album).to have_key(:introline)
+      expect(album).to have_key(:id)
+      expect(album).to have_key(:type)
+      expect(album).to have_key(:content)
+
+      album_attr = album[:content]
+
+      expect(album_attr).to have_key(:title)
+      expect(album_attr).to have_key(:release_year)
+      expect(album_attr).to have_key(:genres)
+      expect(album_attr).to have_key(:image)
+      expect(album_attr).to have_key(:api_id)
+    end
+
+    it 'can retrieve recent results in expected format' do
+      data = {
+        "recent": "recent"
+      }
+      get api_v1_albums_path, headers: @headers, params: data
+
+      album = JSON.parse(response.body, symbolize_names: true)[:data][0]
+
+      expect(response).to be_successful
+      expect(album).to have_key(:introline)
+      expect(album).to have_key(:id)
+      expect(album).to have_key(:type)
+      expect(album).to have_key(:content)
+
+      album_attr = album[:content]
+
+      expect(album_attr).to have_key(:title)
+      expect(album_attr).to have_key(:release_year)
+      expect(album_attr).to have_key(:genres)
+      expect(album_attr).to have_key(:image)
+      expect(album_attr).to have_key(:api_id)
     end
   end
 end

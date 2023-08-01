@@ -1,4 +1,4 @@
-module SpotifyWebToken
+module ApiWebToken
   extend ActiveSupport::Concern
 
   def update_token

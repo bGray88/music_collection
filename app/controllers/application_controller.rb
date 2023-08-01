@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   include JsonWebToken
-  include SpotifyWebToken
+  include ApiWebToken
 
   helper_method :current_user
   before_action :authenticate_request

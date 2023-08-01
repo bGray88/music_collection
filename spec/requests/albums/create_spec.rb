@@ -18,9 +18,11 @@ RSpec.describe 'Albums API' do
   describe '#Create' do
     it 'can create a new album' do
       album_params = {
-        title: 'Born to Run',
-        genre: 'Rock',
+        title:        'Born to Run',
+        genre:        'Rock',
         release_year: 1975,
+        image:        'http://image.com',
+        api_id:       '123456',
         artist_id: @artist1.id
       }
       post api_v1_albums_path, headers: @headers, params: JSON.generate(album: album_params)

@@ -3,11 +3,12 @@ class ArtistSerializer
     {
       "data": artists.map do |artist|
         {
-          "id":         artist[:id],
-          "type":       "Artist",
+          "id":   artist.id,
+          "type": "Artist",
           "attributes": {
-            "name": artist[:name],
-            "form_year":  artist[:form_year]
+            "name":      artist.name,
+            "image":     artist.image,
+            "api_id":    artist.api_id
           }
         }
       end

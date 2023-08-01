@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_28_180331) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_23_221634) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,18 +27,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_28_180331) do
     t.string "title", null: false
     t.integer "release_year", null: false
     t.string "genre", null: false
+    t.string "api_id", null: false
+    t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "artist_id", null: false
-    t.string "image"
+    t.index ["api_id"], name: "index_albums_on_api_id", unique: true
     t.index ["artist_id"], name: "index_albums_on_artist_id"
   end
 
   create_table "artists", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "form_year", null: false
+    t.string "api_id", null: false
+    t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["api_id"], name: "index_artists_on_api_id", unique: true
   end
 
   create_table "songs", force: :cascade do |t|
@@ -63,11 +67,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_28_180331) do
   create_table "users", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
-    t.string "email", null: false
+    t.string "email"
     t.integer "role", default: 0, null: false
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "album_songs", "albums"

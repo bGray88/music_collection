@@ -1,16 +1,14 @@
 class Api::V1::AlbumsController < ApplicationController
-  skip_before_action :authenticate_request, only: [:index]
+  skip_before_action :authenticate_request, only: [:index, :show]
 
   def create
+    artist = Artist.find_by(api_id: album_params[:artist_id])
+    params[:album][:artist_id] = artist.id
     album = Album.new(album_params)
     if album.save
-      render json: {
-        "success": "Album added successfully"
-        }, status: :created
+      render json: { "success": "Album added successfully" }, status: :created
     else
-      render json: {
-        "errors": album.errors.full_messages.to_sentence
-        }, status: :bad_request
+      render json: { "errors": album.errors.full_messages.to_sentence }, status: :bad_request
     end
   end
 
@@ -18,28 +16,45 @@ class Api::V1::AlbumsController < ApplicationController
     update_token
     if params[:search]
       render json: AlbumSerializer.albums(
-        AlbumsService.search_by_artist(
-          params[:search],
-          session[:token]
+        AlbumFacade.albums(
+          AlbumsService.search_by_artist(
+            params[:search],
+            session[:token]
+          )[:albums][:items]
         )
       )
     end
     if params[:suggest]
-      render json: AlbumSerializer.album_slides_tracks(
-        AlbumsService.search_suggested(
-          ['classic', 'rock', 'punk'].sample,
-          session[:token]
+      render json: AlbumSerializer.albums_slides(
+        AlbumFacade.albums_tracks(
+          AlbumsService.search_suggested(
+            ['classic', 'rock', 'punk'].sample,
+            session[:token]
+          )[:tracks]
         )
       )
     end
     if params[:recent]
-      render json: AlbumSerializer.album_slides_albums(
-        AlbumsService.search_recent(
-          session[:token]
+      render json: AlbumSerializer.albums_slides(
+        AlbumFacade.albums(
+          AlbumsService.search_recent(
+            session[:token]
+          )[:albums][:items]
         )
       )
     end
-    render json: AlbumSerializer.albums(AlbumFacade.albums(Album.all)) if params[:owned]
+  end
+
+  def show
+    update_token
+    render json: AlbumSerializer.albums(
+      AlbumFacade.albums(
+        [AlbumsService.search_by_album_id(
+          params[:find_album_id],
+          session[:token]
+        )]
+      )
+    )
   end
 
   private
@@ -49,6 +64,8 @@ class Api::V1::AlbumsController < ApplicationController
       :title,
       :genre,
       :release_year,
+      :image,
+      :api_id,
       :artist_id
     )
   end

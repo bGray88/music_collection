@@ -5,5 +5,6 @@ class Artist < ApplicationRecord
   has_many :users, through: :user_albums
 
   validates :name, presence: true
-  validates :form_year, presence: true
+  validates :api_id, presence: true, uniqueness: true
+  validates :image, presence: true
 end

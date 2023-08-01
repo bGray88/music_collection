@@ -17,9 +17,10 @@ RSpec.describe 'Artists API' do
   describe '#Create' do
     it 'can create a new artist' do
       artist_params = {
-        name: 'The Churchills',
-        form_year: 1975,
-        genre: 'Folk'
+        name:   'The Churchills',
+        genre:  'Folk',
+        image:  'http://image.com',
+        api_id: '123456'
       }
       post api_v1_artists_path, headers: @headers, params: JSON.generate(artist: artist_params)
 
@@ -33,12 +34,13 @@ RSpec.describe 'Artists API' do
     it 'notifies of errors due to missing attributes' do
       artist_params = {
         name: 'Winchell McNuggets',
-        genre: 'Rock'
+        genre: 'Rock',
+        image:  'http://image.com',
       }
       post api_v1_artists_path, headers: @headers, params: JSON.generate(artist: artist_params)
 
       expect(response).to_not be_successful
-      expect(response.body).to include("Form year can\'t be blank")
+      expect(response.body).to include("Api can\'t be blank")
     end
   end
 end
