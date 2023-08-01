@@ -11,6 +11,8 @@ RSpec.describe Album, type: :model do
     it { should validate_presence_of(:title) }
     it { should validate_presence_of(:release_year) }
     it { should validate_presence_of(:genre) }
+    it { should validate_presence_of(:image) }
+    it { should validate_presence_of(:api_id) }
   end
 
   it "exists and has attributes" do

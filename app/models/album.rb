@@ -10,4 +10,5 @@ class Album < ApplicationRecord
   validates :release_year, presence: true
   validates :genre, presence: true
   validates :image, presence: true
+  validates :api_id, presence: true, uniqueness: true
 end

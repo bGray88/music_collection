@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Albums Service' do
   describe "Renew Token" do
-    it 'can renew token through Spotify from API' do
+    it 'can renew token through API' do
       auth_response = AlbumsService.renew_auth_token
 
       expect(auth_response[:access_token]).to be_a(String)

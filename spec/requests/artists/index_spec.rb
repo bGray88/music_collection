@@ -19,8 +19,10 @@ RSpec.describe 'Artists API' do
 
       artist1 = artists.dig(:data, 0)
 
+      expect(artist1[:id]).to eq(@artist1[:id])
       expect(artist1.dig(:attributes, :name)).to eq(@artist1[:name])
-      expect(artist1.dig(:attributes, :form_year)).to eq(@artist1[:form_year])
+      expect(artist1.dig(:attributes, :image)).to eq(@artist1[:image])
+      expect(artist1.dig(:attributes, :api_id)).to eq(@artist1[:api_id])
     end
   end
 end
