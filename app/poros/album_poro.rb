@@ -5,7 +5,8 @@ class AlbumPoro
               :genres,
               :image,
               :api_id,
-              :artist_id
+              :artist_id,
+              :owned
 
   def initialize(album)
     @id           = album[:id]
@@ -15,5 +16,6 @@ class AlbumPoro
     @image        = album[:images][0][:url]
     @api_id       = album[:api_id]
     @artist_id    = album[:artists][0][:id]
+    @owned        = album[:owned]
   end
 end

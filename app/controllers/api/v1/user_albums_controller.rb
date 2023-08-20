@@ -1,7 +1,7 @@
 class Api::V1::UserAlbumsController < ApplicationController
   def create
     album = Album.find_by(api_id: params[:album_id])
-    user_album = UserAlbum.new(user_id: @_current_user.id, album_id: album.id)
+    user_album = UserAlbum.new(user_id: current_user.id, album_id: album.id)
     if user_album.save
       render json: { "success": "Album added to User successfully" }, status: :created
     else
@@ -12,7 +12,7 @@ class Api::V1::UserAlbumsController < ApplicationController
   end
 
   def index
-    user_albums = UserAlbum.where(user_id: @_current_user.id)
+    user_albums = UserAlbum.where(user_id: current_user.id)
     if user_albums
       render json: AlbumSerializer.albums(
         UserAlbumFacade.user_albums(user_albums)
@@ -23,7 +23,7 @@ class Api::V1::UserAlbumsController < ApplicationController
   end
 
   def destroy
-    user_album = UserAlbum.find_by(user_id: @_current_user.id, album_id: params[:album_id])
+    user_album = UserAlbum.find_by(user_id: current_user.id, album_id: params[:album_id])
     if user_album&.delete
       render json: { "success": "Album removed from User successfully" }, status: :ok
     else

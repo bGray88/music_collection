@@ -20,7 +20,8 @@ class Api::V1::AlbumsController < ApplicationController
           AlbumsService.search_by_artist(
             params[:search],
             session[:token]
-          )[:albums][:items]
+          )[:albums][:items],
+          current_user&.id
         )
       )
     end
@@ -30,7 +31,8 @@ class Api::V1::AlbumsController < ApplicationController
           AlbumsService.search_suggested(
             ['classic', 'rock', 'punk'].sample,
             session[:token]
-          )[:tracks]
+          )[:tracks],
+          current_user&.id
         )
       )
     end
@@ -39,7 +41,8 @@ class Api::V1::AlbumsController < ApplicationController
         AlbumFacade.albums(
           AlbumsService.search_recent(
             session[:token]
-          )[:albums][:items]
+          )[:albums][:items],
+          current_user&.id
         )
       )
     end
@@ -52,7 +55,8 @@ class Api::V1::AlbumsController < ApplicationController
         [AlbumsService.search_by_album_id(
           params[:find_album_id],
           session[:token]
-        )]
+        )],
+        current_user&.id
       )
     )
   end

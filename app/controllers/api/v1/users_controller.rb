@@ -40,7 +40,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def find_user
-    @user = @_current_user
+    @user = current_user
   end
 
   def user_params

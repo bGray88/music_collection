@@ -11,7 +11,8 @@ class AlbumSerializer
             "genres":       album.genres,
             "image":        album.image,
             "api_id":       album.api_id,
-            "artist_id":    album.artist_id
+            "artist_id":    album.artist_id,
+            "owned":        album.owned
           }
         }
       end
@@ -31,7 +32,8 @@ class AlbumSerializer
             "genres":       album.genres,
             "image":        album.image,
             "api_id":       album.api_id,
-            "artist_id":    album.artist_id
+            "artist_id":    album.artist_id,
+            "owned":        album.owned
           }
         }
       end
